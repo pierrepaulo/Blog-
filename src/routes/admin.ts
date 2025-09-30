@@ -12,7 +12,7 @@ adminRoutes.post(
   adminController.addPost
 );
 adminRoutes.get("/posts", privateRoute, adminController.getPosts);
-//adminRoutes.get('/posts/:slug', adminController.getPost)
+adminRoutes.get("/posts/:slug", privateRoute, adminController.getPost);
 adminRoutes.put(
   "/posts/:slug",
   privateRoute,
