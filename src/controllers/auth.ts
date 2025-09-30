@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import z from "zod";
 import { createUser } from "../services/user";
+import { createToken } from "../services/auth";
 
 export const signup: RequestHandler = async (req, res) => {
   const schema = z.object({
@@ -20,7 +21,7 @@ export const signup: RequestHandler = async (req, res) => {
     return;
   }
 
-  const token = "123"; //todo: criar token de acessso
+  const token = createToken(newUser);
 
   res.status(201).json({
     user: {
