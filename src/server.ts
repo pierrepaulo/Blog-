@@ -12,8 +12,8 @@ server.use(bodyParser.urlencoded({ extended: true }));
 server.use(express.static("public"));
 
 server.use("/api", mainRoutes);
-server.use("/api", adminRoutes);
-server.use("/api", authRoutes);
+server.use("/api/admin", adminRoutes);
+server.use("/api/auth", authRoutes);
 
 server.listen(4444, () => {
   console.log("Blog backend running");
