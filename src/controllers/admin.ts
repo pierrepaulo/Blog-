@@ -5,13 +5,39 @@ import {
   createPost,
   createPostSlug,
   deletePost,
+  getAllPosts,
   getPostBySlug,
   handleCover,
   updatePost,
 } from "../services/post";
 import { getUserById } from "../services/user";
 import { coverToUrl } from "../utils/cover-to-url";
-import { title } from "process";
+
+export const getPosts = async (req: ExtendedRequest, res: Response) => {
+  let page = 1;
+  if (req.query.page) {
+    page = parseInt(req.query.page as string);
+    if (page <= 0) {
+      res.json({ error: "Pagina inexistente" });
+      return;
+    }
+  }
+
+  let posts = await getAllPosts(page);
+
+  const postsToReturn = posts.map((post) => ({
+    id: post.id,
+    status: post.status,
+    title: post.title,
+    createdAt: post.createdAt,
+    cover: coverToUrl(post.cover),
+    authorName: post.author?.name,
+    tags: post.tags,
+    slug: post.slug,
+  }));
+
+  res.json({ posts: postsToReturn, page });
+};
 
 export const addPost = async (req: ExtendedRequest, res: Response) => {
   if (!req.user) return;

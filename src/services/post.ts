@@ -4,6 +4,27 @@ import slug from "slug";
 import { prisma } from "../libs/prisma";
 import { Prisma } from "@prisma/client";
 
+export const getAllPosts = async (page: number) => {
+  let perPage = 5;
+  if (page <= 0) return [];
+  const posts = await prisma.post.findMany({
+    include: {
+      author: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 5,
+    skip: (page - 1) * perPage,
+  });
+
+  return posts;
+};
+
 export const getPostBySlug = async (slug: string) => {
   return await prisma.post.findUnique({
     where: { slug },

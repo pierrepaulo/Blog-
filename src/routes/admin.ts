@@ -11,7 +11,7 @@ adminRoutes.post(
   upload.single("cover"),
   adminController.addPost
 );
-//adminRoutes.get('/posts', adminController.getPots)
+adminRoutes.get("/posts", privateRoute, adminController.getPosts);
 //adminRoutes.get('/posts/:slug', adminController.getPost)
 adminRoutes.put(
   "/posts/:slug",
