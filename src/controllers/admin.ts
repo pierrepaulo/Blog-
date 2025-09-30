@@ -4,6 +4,7 @@ import z from "zod";
 import {
   createPost,
   createPostSlug,
+  deletePost,
   getPostBySlug,
   handleCover,
   updatePost,
@@ -112,4 +113,16 @@ export const editPost = async (req: ExtendedRequest, res: Response) => {
       authorName: author?.name,
     },
   });
+};
+
+export const removePost = async (req: ExtendedRequest, res: Response) => {
+  const { slug } = req.params;
+  const post = await getPostBySlug(slug);
+  if (!post) {
+    res.json({ error: "Post inexistente" });
+    return;
+  }
+
+  await deletePost(post.slug);
+  res.json({ error: null });
 };

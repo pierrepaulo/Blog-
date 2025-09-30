@@ -19,4 +19,4 @@ adminRoutes.put(
   upload.single("cover"),
   adminController.editPost
 );
-//adminRoutes.delete('/posts/:slug', adminController.removePost)
+adminRoutes.delete("/posts/:slug", privateRoute, adminController.removePost);
