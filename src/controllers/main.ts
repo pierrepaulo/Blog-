@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { getPublishedPosts } from "../services/post";
+import { getPostBySlug, getPublishedPosts } from "../services/post";
 import { coverToUrl } from "../utils/cover-to-url";
 
 export const getAllPosts: RequestHandler = async (req, res) => {
@@ -28,6 +28,27 @@ export const getAllPosts: RequestHandler = async (req, res) => {
   res.json({ posts: postsToReturn, page });
 };
 
-export const getPosts: RequestHandler = async (req, res) => {};
+export const getPosts: RequestHandler = async (req, res) => {
+  const { slug } = req.params;
+
+  const post = await getPostBySlug(slug);
+  if (!post || (post && post.status !== "PUBLISHED")) {
+    res.json({ error: "Post inexistente" });
+    return;
+  }
+
+  res.json({
+    post: {
+      id: post.id,
+      title: post.title,
+      createdAt: post.createdAt,
+      cover: coverToUrl(post.cover),
+      authorName: post.author?.name,
+      tags: post.tags,
+      body: post.body,
+      slug: post.slug,
+    },
+  });
+};
 
 export const getRelatedPosts: RequestHandler = async (req, res) => {};
