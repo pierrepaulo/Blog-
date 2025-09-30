@@ -1,5 +1,9 @@
 import { RequestHandler } from "express";
-import { getPostBySlug, getPublishedPosts } from "../services/post";
+import {
+  getPostBySlug,
+  getPostsWithSameTags,
+  getPublishedPosts,
+} from "../services/post";
 import { coverToUrl } from "../utils/cover-to-url";
 
 export const getAllPosts: RequestHandler = async (req, res) => {
@@ -51,4 +55,20 @@ export const getPosts: RequestHandler = async (req, res) => {
   });
 };
 
-export const getRelatedPosts: RequestHandler = async (req, res) => {};
+export const getRelatedPosts: RequestHandler = async (req, res) => {
+  const { slug } = req.params;
+
+  let posts = await getPostsWithSameTags(slug);
+
+  const postsToReturn = posts.map((post) => ({
+    id: post.id,
+    title: post.title,
+    createdAt: post.createdAt,
+    cover: coverToUrl(post.cover),
+    authorName: post.author?.name,
+    tags: post.tags,
+    slug: post.slug,
+  }));
+
+  res.json({ posts: postsToReturn });
+};
