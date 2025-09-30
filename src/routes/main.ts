@@ -7,6 +7,6 @@ mainRoutes.get("/ping", (req, res) => {
   res.json({ pong: true });
 });
 
-//mainRoutes.get("/posts", mainController.getAllPosts);
+mainRoutes.get("/posts", mainController.getAllPosts);
 //mainRoutes.get("/posts/:slug", mainController.getPosts);
 //mainRoutes.get("/posts/:slug/related", mainController.getRelatedPosts);
