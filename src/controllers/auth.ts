@@ -60,3 +60,5 @@ export const signin: RequestHandler = async (req, res) => {
     token,
   });
 };
+
+export const validate: RequestHandler = (req, res) => {};
