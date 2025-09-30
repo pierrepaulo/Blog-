@@ -8,7 +8,7 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(express.static("public"));
 
-server.get("/ping", (req, res) => {
+server.get("/api/ping", (req, res) => {
   res.json({ pong: true });
 });
 
